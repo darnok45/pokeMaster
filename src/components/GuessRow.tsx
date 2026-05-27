@@ -15,6 +15,7 @@ export function GuessRow({ guess, target }: Props) {
   const [showTypes, setShowTypes] = useState(false);
   const [showHeight, setShowHeight] = useState(false);
   const [showWeight, setShowWeight] = useState(false);
+  const [showPokedex, setShowPokedex] = useState(false);
 
   useEffect(() => {
     // Cascada de tiempos (Efecto de revelado de izquierda a derecha)
@@ -22,6 +23,7 @@ export function GuessRow({ guess, target }: Props) {
     const timer2 = setTimeout(() => setShowTypes(true), 500);
     const timer3 = setTimeout(() => setShowHeight(true), 850);
     const timer4 = setTimeout(() => setShowWeight(true), 1200);
+    const timer5 = setTimeout(() => setShowPokedex(true), 1600);
 
     // Limpieza de timers al desmontar el componente (Buena práctica obligatoria)
     return () => {
@@ -29,16 +31,33 @@ export function GuessRow({ guess, target }: Props) {
       clearTimeout(timer2);
       clearTimeout(timer3);
       clearTimeout(timer4);
+      clearTimeout(timer5);
     };
   }, [guess.id]); // Se dispara cada vez que llega un nuevo intento
 
   // Lógica de colores (Igual a la versión anterior)
-  const getTypesStyle = () => {
+  const getTypesStyle1 = () => {
     const matchingTypes = guess.types.filter(t => target.types.includes(t));
-    if (guess.types.length === target.types.length && matchingTypes.length === guess.types.length) {
+     if (guess.types[0] === target.types[0]) {
       return styles.correct;
+    }else if(guess.types[1] === target.types[0]){
+      return styles.partial;
+    }else{
+      return styles.incorrect
     }
-    return matchingTypes.length > 0 ? styles.partial : styles.incorrect;
+    /*return matchingTypes.length > 0 ? styles.partial : styles.incorrect; */
+  };
+
+   const getTypesStyle2 = () => {
+    const matchingTypes = guess.types.filter(t => target.types.includes(t));
+    if (guess.types[1] === target.types[1]) {
+      return styles.correct;
+    }else if(guess.types[0] === target.types[1]){
+      return styles.partial;
+    }else{
+      return styles.incorrect
+    }
+    /*return matchingTypes.length > 0 ? styles.partial : styles.incorrect; */
   };
 
   const getIconName = (guessVal: number, targetVal: number): string => {
@@ -54,7 +73,7 @@ export function GuessRow({ guess, target }: Props) {
 
   return (
     <View style={styles.card}>
-      {/* 1. Bloque de Identidad (Imagen y Nombre) */}
+      {/* 1. Bloque de Identidad (ImaPokedex y Nombre) */}
       <View style={[styles.mainInfo, !showIdentity && styles.hiddenBlock]}>
         {showIdentity && (
           <>
@@ -69,12 +88,22 @@ export function GuessRow({ guess, target }: Props) {
       {/* 2. Celdas Estadísticas Secuenciales */}
       <View style={styles.statsRow}>
         
-        {/* Celda: Tipos */}
-        <View style={[styles.statBox, showTypes ? getTypesStyle() : styles.hiddenBox]}>
+        {/* Celda: Tipo 1 */}
+        <View style={[styles.statBox, showTypes ? getTypesStyle1() : styles.hiddenBox]}>
           {showTypes && (
             <>
               <FontAwesome5 name="elementor" size={14} color="white" style={styles.icon} />
-              <Text style={styles.statText}>{guess.types.join('\n')}</Text>
+              <Text style={styles.statText}>{guess.types[0]}</Text>
+            </>
+          )}
+        </View>
+
+        {/* Celda: Tipo 2 */}
+        <View style={[styles.statBox, showTypes ? getTypesStyle2() : styles.hiddenBox]}>
+          {showTypes && (
+            <>
+              <FontAwesome5 name="elementor" size={14} color="white" style={styles.icon} />
+              <Text style={styles.statText}>{guess.types[1]}</Text>
             </>
           )}
         </View>
@@ -101,6 +130,19 @@ export function GuessRow({ guess, target }: Props) {
                 <FontAwesome5 name={getIconName(guess.weight, target.weight)} size={10} color="white" />
               </View>
               <Text style={styles.label}>Peso</Text>
+            </>
+          )}
+        </View>
+
+        {/* Celda: Pokedexeración */}
+        <View style={[styles.statBox, showPokedex ? getStatusColor(guess.pokedex_number, target.pokedex_number, 100) : styles.hiddenBox]}>
+          {showPokedex && (
+            <>
+              <View style={styles.indicatorRow}>
+                <Text style={styles.statText}>° {guess.pokedex_number}</Text>
+                <FontAwesome5 name={getIconName(guess.pokedex_number, target.pokedex_number)} size={10} color="white" />
+              </View>
+              <Text style={styles.label}>N° Pokedex</Text>
             </>
           )}
         </View>

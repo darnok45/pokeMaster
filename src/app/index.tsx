@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Pressable } from 'react-native';
-import { getPokemonList151, getPokemonGameData } from '@/services/pokemon.service';
+import { getPokemonList, getPokemonGameData } from '@/services/pokemon.service';
 import { PokemonGameData } from '@/types/pokemon';
 import { SearchBar } from '@/components/SearchBar';
 import { GuessRow } from '@/components/GuessRow';
@@ -22,7 +22,7 @@ export default function GameScreen() {
       setError(null);
       setGuesses([]);
       
-      const list = await getPokemonList151();
+      const list = await getPokemonList();
       setAllPokemons(list);
 
       // Elegimos un ID aleatorio entre los 151 disponibles
@@ -44,7 +44,7 @@ export default function GameScreen() {
 
   // ESTADOS DERIVADOS (Evitamos el antipatrón de estados duplicados) [Clase 5]
   const won = guesses.some(g => g.id === targetPokemon?.id);
-  const lost = guesses.length >= 6 && !won;
+  const lost = guesses.length >= 10 && !won;
   const gameOver = won || lost;
 
   // EFECTO: Registra la partida en el historial de forma automática al terminar [Clase 6]
@@ -65,6 +65,9 @@ export default function GameScreen() {
     try {
       const guessData = await getPokemonGameData(pokemonName);
       
+      if(guessData.types.length < 2){
+        guessData.types.push("none")
+      }
       // Validamos que no se haya arriesgado ya ese mismo pokemon
       if (guesses.some(g => g.id === guessData.id)) return;
 
@@ -102,10 +105,10 @@ export default function GameScreen() {
       {/* Encabezado con estilos fijos mapeados abajo */}
       <View style={styles.header}>
         <Text style={styles.instructions}>
-          Adiviná el Pokémon oculto de la 1° Generación
+          Adiviná el Pokémon oculto
         </Text>
         <View style={styles.badgeCount}>
-          <Text style={styles.badgeText}>Intentos {guesses.length} / 6</Text>
+          <Text style={styles.badgeText}>Intentos {guesses.length} / 10</Text>
         </View>
       </View>
 
