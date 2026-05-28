@@ -16,8 +16,7 @@ export default function GameLayout() {
       <Stack.Screen 
         name="game" 
         options={{ 
-          title: 'ES HORA DE ADIVINAR',
-          presentation: 'card',
+          title: 'JUEGO',
           // Agregamos el botón de estadísticas en el lado derecho superior
           headerRight: () => (
             <Pressable 

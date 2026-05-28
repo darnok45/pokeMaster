@@ -5,7 +5,7 @@
   "dependencies": {
     "@expo/ui": "~56.0.14",
     "@expo/vector-icons": "^15.1.1",
-    "expo": "~56.0.5",
+    "expo": "~56.0.6",
     "expo-constants": "~56.0.16",
     "expo-device": "~56.0.4",
     "expo-font": "~56.0.5",
@@ -26,7 +26,8 @@
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "4.25.2",
     "react-native-web": "~0.21.0",
-    "react-native-worklets": "0.8.3"
+    "react-native-worklets": "0.8.3",
+    "sdk": "54"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
