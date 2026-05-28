@@ -14,9 +14,10 @@ export default function GameLayout() {
       }}
     >
       <Stack.Screen 
-        name="index" 
+        name="game" 
         options={{ 
-          title: 'POKÉ-WORDLE',
+          title: 'ES HORA DE ADIVINAR',
+          presentation: 'card',
           // Agregamos el botón de estadísticas en el lado derecho superior
           headerRight: () => (
             <Pressable 
@@ -28,7 +29,7 @@ export default function GameLayout() {
           ),
           headerLeft: () => (
             <Pressable 
-              onPress={() => router.push('/start')} 
+              onPress={() => router.push('/')} 
               style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1, padding: 4 })}
             >
               <FontAwesome5 name="home" size={22} color={theme.colors.text} />
@@ -46,11 +47,20 @@ export default function GameLayout() {
       />
 
       <Stack.Screen 
-        name="start" 
+        name="index" 
         options={{ 
-          title: 'INICIO',
-          presentation: 'card' // Animación nativa de empuje móvil
-        }} 
+          title: 'POKEMASTER',
+          presentation: 'card', // Animación nativa de empuje móvil
+          // Agregamos el botón de estadísticas en el lado derecho superior
+          headerRight: () => (
+            <Pressable 
+              onPress={() => router.push('/history')} 
+              style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1, padding: 4 })}
+            >
+              <FontAwesome5 name="chart-bar" size={22} color={theme.colors.text} />
+            </Pressable>
+          )
+        }}
       />
     </Stack>
 

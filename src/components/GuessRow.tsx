@@ -37,7 +37,6 @@ export function GuessRow({ guess, target }: Props) {
 
   // Lógica de colores (Igual a la versión anterior)
   const getTypesStyle1 = () => {
-    const matchingTypes = guess.types.filter(t => target.types.includes(t));
      if (guess.types[0] === target.types[0]) {
       return styles.correct;
     }else if(guess.types[0] === target.types[1]){
@@ -45,13 +44,9 @@ export function GuessRow({ guess, target }: Props) {
     }else{
       return styles.incorrect
     }
-    /*return matchingTypes.length > 0 ? styles.partial : styles.incorrect; */
   };
 
    const getTypesStyle2 = () => {
-    const matchingTypes = guess.types.filter(t => target.types.includes(t));
-    console.log(guess.types)
-    console.log(target.types)
     if (guess.types[1] === target.types[1]) {
       return styles.correct;
     }else if(guess.types[1] === target.types[0]){
@@ -59,7 +54,6 @@ export function GuessRow({ guess, target }: Props) {
     }else{
       return styles.incorrect
     }
-    /*return matchingTypes.length > 0 ? styles.partial : styles.incorrect; */
   };
 
   const getIconName = (guessVal: number, targetVal: number): string => {
@@ -136,7 +130,7 @@ export function GuessRow({ guess, target }: Props) {
           )}
         </View>
 
-        {/* Celda: Pokedexeración */}
+        {/* Celda: Pokedex */}
         <View style={[styles.statBox, showPokedex ? getStatusColor(guess.pokedex_number, target.pokedex_number, 100) : styles.hiddenBox]}>
           {showPokedex && (
             <>
