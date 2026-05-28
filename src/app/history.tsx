@@ -1,10 +1,13 @@
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, Dimensions } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { useState, useCallback } from 'react';
 import { getMatchesHistory, getGameStats } from '@/services/history.service';
 import { MatchRecord, GameStats } from '@/types/history';
 import { theme } from '@/constants/theme';
 import { FontAwesome5 } from '@expo/vector-icons';
+
+// 🟩 Obtenemos las dimensiones físicas exactas del dispositivo móvil [Guia Paso a Paso]
+const { width, height } = Dimensions.get('window');
 
 export default function HistoryScreen() {
   const [history, setHistory] = useState<MatchRecord[]>([]);
@@ -22,6 +25,12 @@ export default function HistoryScreen() {
   if (!stats || history.length === 0) {
     return (
       <View style={styles.centerContainer}>
+        {/* 🟩 Fondo completo para el estado vacío */}
+        <Image 
+          source={require('@/assets/images/fondoPrado.png')} 
+          style={styles.backgroundImage} 
+          resizeMode="cover" 
+        />
         <FontAwesome5 name="gamepad" size={50} color={theme.colors.muted} />
         <Text style={styles.emptyText}>Todavía no tenés partidas registradas.</Text>
         <Text style={styles.emptySubtext}>¡Jugá tu primer Poké-Wordle para ver tus estadísticas!</Text>
@@ -31,6 +40,13 @@ export default function HistoryScreen() {
 
   return (
     <View style={styles.container}>
+      {/* 🟩 IMAGEN DE FONDO ABSOLUTA MÓVIL (Cubre el 100% de borde a borde sin opacar) */}
+      <Image 
+        source={require('@/assets/images/fondoPrado.png')} 
+        style={styles.backgroundImage} 
+        resizeMode="cover"
+      />
+
       {/* 📊 PANEL DE ESTADÍSTICAS GENERALES */}
       <View style={styles.statsDashboard}>
         <View style={styles.statCard}>
@@ -80,21 +96,36 @@ export default function HistoryScreen() {
   );
 }
 
+// 🎨 ESTILOS COMPLETOS COORDINADOS
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
     padding: theme.spacing.md,
+    // 🟩 Agregamos espacio arriba para que el contenido baje y no se tape por el Header transparente
+    paddingTop: 110, 
   },
   centerContainer: {
     flex: 1,
-    backgroundColor: theme.colors.background,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.colors.background,
     padding: theme.spacing.lg,
   },
+  
+  // 🟩 REGLA DEL FONDO DE PANTALLA TOTAL:
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: width,   // Matemáticamente el ancho de tu pantalla
+    height: height, // Matemáticamente el alto de tu pantalla
+    zIndex: -1,     // Se clava al fondo ocultándose por detrás de los componentes
+    opacity: 1.0,   // Color nítido total. Si el texto se te complica leer, bajalo a 0.85
+  },
+
   emptyText: {
-    color: theme.colors.text,
+    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: theme.spacing.md,
@@ -103,34 +134,32 @@ const styles = StyleSheet.create({
   emptySubtext: {
     color: theme.colors.muted,
     fontSize: 14,
+    marginTop: theme.spacing.xs,
     textAlign: 'center',
-    marginTop: 6,
   },
   statsDashboard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 10,
     marginBottom: theme.spacing.lg,
   },
   statCard: {
     flex: 1,
-    backgroundColor: theme.colors.card,
-    borderRadius: 16,
+    backgroundColor: 'rgba(30, 41, 59, 0.85)', // Un fondo oscuro semi-translúcido para contrastar con la imagen
     padding: theme.spacing.md,
+    borderRadius: 16,
     alignItems: 'center',
+    marginHorizontal: 4,
     borderWidth: 1,
-    borderColor: theme.colors.border,
-    elevation: 2,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   statNumber: {
-    color: theme.colors.primary,
+    color: 'white',
     fontSize: 22,
-    fontWeight: '900',
+    fontWeight: 'bold',
   },
   statLabel: {
     color: theme.colors.muted,
     fontSize: 11,
-    fontWeight: '600',
     marginTop: 2,
     textTransform: 'uppercase',
   },
@@ -141,12 +170,12 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   historyCard: {
-    backgroundColor: theme.colors.card,
-    borderRadius: 14,
-    padding: theme.spacing.md,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: 'rgba(30, 41, 59, 0.9)', // Sólido transparente para que se lea perfecto sobre el fondo
+    padding: theme.spacing.sm,
+    borderRadius: 16,
     marginBottom: theme.spacing.sm,
     borderLeftWidth: 5,
   },
@@ -155,28 +184,28 @@ const styles = StyleSheet.create({
   leftInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
   },
   imageWrapper: {
-    backgroundColor: theme.colors.background,
-    borderRadius: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: 12,
     padding: 4,
   },
   pokemonImg: {
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
   },
   metaData: {
-    justifyContent: 'center',
+    marginLeft: theme.spacing.sm,
   },
   pokemonName: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+    textTransform: 'capitalize',
   },
   dateText: {
     color: theme.colors.muted,
-    fontSize: 12,
+    fontSize: 11,
     marginTop: 2,
   },
   rightStatus: {
@@ -185,13 +214,13 @@ const styles = StyleSheet.create({
   badge: {
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 8,
+    borderRadius: 12,
   },
-  badgeWin: { backgroundColor: 'rgba(40, 199, 111, 0.15)' },
-  badgeLose: { backgroundColor: 'rgba(234, 84, 85, 0.15)' },
+  badgeWin: { backgroundColor: 'rgba(46, 117, 89, 0.2)' },
+  badgeLose: { backgroundColor: 'rgba(214, 40, 40, 0.15)' },
   badgeText: {
     color: 'white',
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 });

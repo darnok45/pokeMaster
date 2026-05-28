@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { PokemonGameData } from '@/types/pokemon';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Pressable, ImageBackground,Image } from 'react-native';import { PokemonGameData } from '@/types/pokemon';
 import { theme } from '@/constants/theme';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -53,6 +52,7 @@ export function GuessRow({ guess, target }: Props) {
   };
 
   return (
+
     <View style={styles.card}>
       {/* 1. Bloque de Identidad (Imagen y Nombre) */}
       <View style={[styles.mainInfo, !showIdentity && styles.hiddenBlock]}>

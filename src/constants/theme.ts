@@ -1,6 +1,6 @@
 export const theme = {
   colors: {
-    background: '#0a0f1e', // Azul muy oscuro
+    background: 'images/0.png', // Azul muy oscuro
     card: '#161d31',
     text: '#ffffff',
     muted: '#b4b9c5',

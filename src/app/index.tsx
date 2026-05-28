@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Pressable } from 'react-native';
-import { getPokemonList151, getPokemonGameData } from '@/services/pokemon.service';
-import { PokemonGameData } from '@/types/pokemon';
-import { SearchBar } from '@/components/SearchBar';
 import { GuessRow } from '@/components/GuessRow';
+import { SearchBar } from '@/components/SearchBar';
 import { theme } from '@/constants/theme';
+import { getPokemonGameData, getPokemonList151 } from '@/services/pokemon.service';
+import { PokemonGameData } from '@/types/pokemon';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, ImageBackground, Pressable, StyleSheet, Text, View,Image,Dimensions} from 'react-native';
 // Importamos el servicio del historial para registrar las partidas terminadas
 import { saveMatch } from '@/services/history.service';
-
+// 🟩 Justo abajo de las importaciones, obtené el tamaño real del dispositivo:
+const { width, height } = Dimensions.get('window');
 export default function GameScreen() {
   const [allPokemons, setAllPokemons] = useState<{ id: string; name: string }[]>([]);
   const [targetPokemon, setTargetPokemon] = useState<PokemonGameData | null>(null);
@@ -96,10 +97,17 @@ export default function GameScreen() {
     );
   }
 
-  // 3. RETORNO PRINCIPAL: Se ejecuta cuando ya cargaron los datos básicos del juego
+  // 3. RETORNO PRINCIPAL
   return (
     <View style={styles.container}>
-      {/* Encabezado con estilos fijos mapeados abajo */}
+      {/* 🟩 ESTA ES LA IMAGEN ABSOLUTA QUE VA A OCUPAR TODO EL FONDO */}
+      <Image 
+        source={require('@/assets/images/fondoPixel.png')} // Ajustá la ruta según tu estructura
+        style={[StyleSheet.absoluteFill, styles.backgroundImage]} 
+        resizeMode="cover"
+      />
+
+      {/* Todo tu contenido de antes se queda intacto acá abajo 👇 */}
       <View style={styles.header}>
         <Text style={styles.instructions}>
           Adiviná el Pokémon oculto de la 1° Generación
@@ -125,7 +133,6 @@ export default function GameScreen() {
         showsVerticalScrollIndicator={false}
       />
 
-      {/* Banner flotante de fin de juego */}
       {gameOver && (
         <View style={styles.footer}>
            <View style={[styles.resultCard, won ? styles.winBorder : styles.loseBorder]}>
@@ -144,10 +151,22 @@ export default function GameScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  
+container: {
     flex: 1,
     backgroundColor: theme.colors.background,
     padding: theme.spacing.md,
+  },
+  
+  // 🟩 REGLA NUEVA:
+backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: width,   // Ocupa el ancho exacto de la pantalla
+    height: height, // Ocupa el alto exacto de la pantalla
+    zIndex: -1,     // Se clava por detrás de todos los componentes
+    opacity: 1.0,   // 🟩 1.0 significa Brillo/Color TOTAL. Si la notás muy fuerte podés bajarla a 0.8 o 0.9
   },
   header: {
     flexDirection: 'row',
