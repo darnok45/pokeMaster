@@ -50,6 +50,8 @@ export function GuessRow({ guess, target }: Props) {
 
    const getTypesStyle2 = () => {
     const matchingTypes = guess.types.filter(t => target.types.includes(t));
+    console.log(guess.types)
+    console.log(target.types)
     if (guess.types[1] === target.types[1]) {
       return styles.correct;
     }else if(guess.types[0] === target.types[1]){

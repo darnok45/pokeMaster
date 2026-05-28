@@ -23,10 +23,15 @@ export async function getPokemonGameData(idOrName: string): Promise<PokemonGameD
   if (!response.ok) throw new Error('Pokémon no encontrado');
   const data = await response.json();
 
-  if(data.types.lenght < 2){
-    data.types.push("none")
-  }
-
+  console.log({
+    id: data.id.toString(),
+    name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
+    imageUrl: data.sprites.other['official-artwork'].front_default || data.sprites.front_default,
+    types: data.types.map((t: any) => t.type.name),
+    height: data.height,
+    weight: data.weight,
+    pokedex_number: data.id
+  })
   return {
     id: data.id.toString(),
     name: data.name.charAt(0).toUpperCase() + data.name.slice(1),

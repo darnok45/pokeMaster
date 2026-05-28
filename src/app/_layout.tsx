@@ -25,9 +25,18 @@ export default function GameLayout() {
             >
               <FontAwesome5 name="chart-bar" size={22} color={theme.colors.text} />
             </Pressable>
+          ),
+          headerLeft: () => (
+            <Pressable 
+              onPress={() => router.push('/start')} 
+              style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1, padding: 4 })}
+            >
+              <FontAwesome5 name="home" size={22} color={theme.colors.text} />
+            </Pressable>
           )
         }} 
       />
+
       <Stack.Screen 
         name="history" 
         options={{ 
@@ -35,6 +44,16 @@ export default function GameLayout() {
           presentation: 'card' // Animación nativa de empuje móvil
         }} 
       />
+
+      <Stack.Screen 
+        name="start" 
+        options={{ 
+          title: 'INICIO',
+          presentation: 'card' // Animación nativa de empuje móvil
+        }} 
+      />
     </Stack>
+
+        
   );
 }

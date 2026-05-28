@@ -30,6 +30,11 @@ export default function GameScreen() {
       const randomPokemon = list[randomIdx];
       
       const details = await getPokemonGameData(randomPokemon.id);
+      
+      if(details.types.length === 1){
+        details.types.push("none")
+      }
+
       setTargetPokemon(details);
     } catch (err) {
       setError('Error al iniciar el juego. Revisá tu conexión.');
