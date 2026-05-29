@@ -15,7 +15,6 @@ export default function WelcomeCard() {
             <Text style={styles.title}>
                 Bienvenido a
             </Text>
-
             <Text style={styles.brand}>
                 <Text style={styles.poke}>Poke</Text>
                 <Text style={styles.master}>Master</Text>
@@ -43,6 +42,7 @@ export default function WelcomeCard() {
           style={styles.pokeball}
           resizeMode="contain"
         />
+
 
         <Text style={styles.playButtonText}>
           ¡A jugar!
