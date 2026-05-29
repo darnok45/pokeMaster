@@ -3,6 +3,7 @@ export const theme = {
     background: 'images/0.png', // Azul muy oscuro
     card: '#161d31',
     text: '#ffffff',
+    textMain: '#000000',
     muted: '#b4b9c5',
     border: '#283046',
     // Colores de juego (más vibrantes)

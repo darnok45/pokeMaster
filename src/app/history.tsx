@@ -85,7 +85,7 @@ export default function HistoryScreen() {
             <View style={styles.rightStatus}>
               <View style={[styles.badge, item.won ? styles.badgeWin : styles.badgeLose]}>
                 <Text style={styles.badgeText}>
-                  {item.won ? `Ganaste en ${item.attempts} 🎯` : 'Fallido ❌'}
+                  {item.won ? `Ganaste en ${item.attempts} intentos 🎯` : 'Fallido ❌'}
                 </Text>
               </View>
             </View>

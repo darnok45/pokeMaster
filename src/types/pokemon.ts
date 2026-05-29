@@ -7,4 +7,5 @@ export type PokemonGameData = {
   types: string[];  // 🟩 ¡Esto es lo que te está faltando acotarle a TypeScript!
   height: number;
   weight: number;
+  pokedex_number:number
 };
