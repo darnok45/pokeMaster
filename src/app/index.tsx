@@ -5,7 +5,7 @@ import { Stack, router } from 'expo-router';
 export default function WelcomeCard() {
   return (
     <ImageBackground
-        source={ require('../../assets/images/fondo_1.webp') } 
+        source={ require('../../assets/images/fondo_1.gif') } 
         style={styles.background}
         resizeMode="cover">
         <ScrollView 
@@ -32,23 +32,29 @@ export default function WelcomeCard() {
                 ¡Haz click aquí abajo para comenzar!
             </Text>
 
-            {/* 🎮 BOTÓN PLAY */}
-      <TouchableOpacity onPress={() => router.push('/game')} activeOpacity={0.8} style={styles.playButton}>
-        
-        <Image
-          source={{
-            uri: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png',
-          }}
-          style={styles.pokeball}
-          resizeMode="contain"
-        />
+            {/*Boton play*/}
+            <TouchableOpacity
+                onPress={() => router.push('/game')}
+                activeOpacity={0.8}
+                style={styles.playButton}
+                >
+            
+            <Image
+            source={{
+                uri: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png',
+            }}
+            style={styles.pokeball}
+            resizeMode="contain"
+            />
 
 
-        <Text style={styles.playButtonText}>
-          ¡A jugar!
-        </Text>
-      </TouchableOpacity>
+            <Text style={styles.playButtonText}>
+            ¡A jugar!
+            </Text>
+        </TouchableOpacity>    
+      
         </View>
+        
     </ScrollView>
     </ImageBackground>
     
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
     },
     container: {
         width: '100%',
-        backgroundColor: 'transparent',
+        backgroundColor: 'rgba(0,0,0,0.8)',
         borderRadius: 50,
         paddingVertical: theme.spacing.lg * 2,
         paddingHorizontal: theme.spacing.lg,
@@ -80,7 +86,7 @@ const styles = StyleSheet.create({
     },
     title: {
         marginTop: 20,
-        color: theme.colors.textMain,
+        color: theme.colors.text,
         fontSize: 34,
         fontWeight: '800',
         textAlign: 'center',
@@ -99,7 +105,7 @@ const styles = StyleSheet.create({
     },
     description: {
         maxWidth: 300,
-        color: theme.colors.textMain,
+        color: theme.colors.text,
         fontSize: 20,
         fontWeight: '700',
         textAlign: 'center',
@@ -107,14 +113,14 @@ const styles = StyleSheet.create({
     },
     subText: {
         maxWidth: 320,
-        color: theme.colors.textMain,
+        color: theme.colors.text,
         fontSize: 18,
         fontWeight: '700',
         textAlign: 'center',
         lineHeight: 34
     },
     callToAction: {
-        color: theme.colors.textMain,
+        color: theme.colors.text,
         fontSize: 20,
         fontWeight: '800',
         textAlign: 'center',

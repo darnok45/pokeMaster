@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Pressable } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Pressable, Dimensions, Image } from 'react-native';
 import { getPokemonList, getPokemonGameData } from '@/services/pokemon.service';
 import { PokemonGameData } from '@/types/pokemon';
 import { SearchBar } from '@/components/SearchBar';
@@ -7,6 +7,10 @@ import { GuessRow } from '@/components/GuessRow';
 import { theme } from '@/constants/theme';
 // Importamos el servicio del historial para registrar las partidas terminadas
 import { saveMatch } from '@/services/history.service';
+
+
+// 🟩 Obtenemos las dimensiones físicas exactas del dispositivo móvil [Guia Paso a Paso]
+const { width, height } = Dimensions.get('window');
 
 export default function GameScreen() {
   const [allPokemons, setAllPokemons] = useState<{ id: string; name: string }[]>([]);
@@ -107,6 +111,12 @@ export default function GameScreen() {
   // 3. RETORNO PRINCIPAL: Se ejecuta cuando ya cargaron los datos básicos del juego
   return (
     <View style={styles.container}>
+    {/* 🟩 ESTA ES LA IMAGEN ABSOLUTA QUE VA A OCUPAR TODO EL FONDO */}
+      <Image 
+        source={require('@/assets/images/fondoPixel.png')} // Ajustá la ruta según tu estructura
+        style={[StyleSheet.absoluteFill, styles.backgroundImage]} 
+        resizeMode="cover"
+      />
       {/* Encabezado con estilos fijos mapeados abajo */}
       <View style={styles.header}>
         <Text style={styles.instructions}>
@@ -152,6 +162,15 @@ export default function GameScreen() {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: width,   // Ocupa el ancho exacto de la pantalla
+    height: height, // Ocupa el alto exacto de la pantalla
+    zIndex: -1,     // Se clava por detrás de todos los componentes
+    opacity: 1.0,   // 🟩 1.0 significa Brillo/Color TOTAL. Si la notás muy fuerte podés bajarla a 0.8 o 0.9
+  },
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
